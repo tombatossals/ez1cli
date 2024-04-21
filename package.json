@@ -1,0 +1,76 @@
+{
+  "name": "ez1cli",
+  "version": "0.0.1",
+  "description": "NodeJS command line API client and library for APSystems EZ1-(M|H) microinverters API",
+  "keywords": [
+    "oclif",
+    "apsystems",
+    "ez1",
+    "microinverter",
+    "api",
+    "client"
+  ],
+  "homepage": "https://github.com/tombatossals/ez1cli",
+  "bugs": "https://github.com/tombatossals/ez1cli/issues",
+  "repository": "tombatossals/ez1cl",
+  "license": "MIT",
+  "author": "David Rubert",
+  "type": "module",
+  "exports": "./lib/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ez1cli": "./bin/run.js"
+  },
+  "files": [
+    "/bin",
+    "/dist",
+    "/oclif.manifest.json"
+  ],
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "lint": "eslint . --ext .ts",
+    "prepack": "npm run build && oclif manifest && oclif readme",
+    "postpack": "shx rm -f oclif.manifest.json",
+    "prepare": "npm run build",
+    "test": "mocha --forbid-only \"test/**/*.test.ts\"",
+    "posttest": "npm run lint",
+    "version": "oclif readme && git add README.md"
+  },
+  "oclif": {
+    "bin": "ez1cli",
+    "commands": "./dist/commands",
+    "dirname": "ez1cli",
+    "topicSeparator": " ",
+    "topics": {
+      "hello": {
+        "description": "Say hello to the world and others"
+      }
+    }
+  },
+  "dependencies": {
+    "@oclif/core": "^3",
+    "@oclif/plugin-help": "^6",
+    "@oclif/plugin-plugins": "^5",
+    "axios": "^1.6.8"
+  },
+  "devDependencies": {
+    "@oclif/prettier-config": "^0.2.1",
+    "@oclif/test": "^3",
+    "@types/chai": "^4",
+    "@types/mocha": "^10",
+    "@types/node": "^18",
+    "chai": "^4",
+    "eslint": "^8",
+    "eslint-config-oclif": "^5",
+    "eslint-config-oclif-typescript": "^3",
+    "eslint-config-prettier": "^9.1.0",
+    "mocha": "^10",
+    "oclif": "^4.8.5",
+    "shx": "^0.3.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
