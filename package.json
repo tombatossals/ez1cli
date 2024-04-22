@@ -12,14 +12,17 @@
   ],
   "homepage": "https://github.com/tombatossals/ez1cli",
   "bugs": "https://github.com/tombatossals/ez1cli/issues",
-  "repository": "tombatossals/ez1cl",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tombatossals/ez1cli.git"
+  },
   "license": "MIT",
   "author": "David Rubert",
   "type": "module",
   "exports": "./lib/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "ez1cli": "./bin/run.js"
+    "ez1cli": "bin/run.js"
   },
   "files": [
     "/bin",
