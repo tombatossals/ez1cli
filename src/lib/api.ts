@@ -1,24 +1,30 @@
 import axios from "axios";
 
 type IDataResponse = {
-    channel1: {
-        lifetimeGeneration: number;
-        power: number;
-        startupGeneration: number;
-    }, channel2: {
-        lifetimeGeneration: number;
-        power: number;
-        startupGeneration: number;
+    status: number;
+    data?: {
+        channel1: {
+            lifetimeGeneration: number;
+            power: number;
+            startupGeneration: number;
+        }, channel2: {
+            lifetimeGeneration: number;
+            power: number;
+            startupGeneration: number;
+        }
     }
 }
 
 type IDeviceInfoResponse = {
-    devVer: string;
-    deviceId: string;
-    ipAddr: string;
-    maxPower: number;
-    minPower: number;
-    ssid: string;
+    status: number;
+    data?: {
+        devVer: string;
+        deviceId: string;
+        ipAddr: string;
+        maxPower: number;
+        minPower: number;
+        ssid: string;
+    }
 }
 
 export type IResponse = IDataResponse | IDeviceInfoResponse;
@@ -50,28 +56,40 @@ export class EZ1API {
     }
 
     async getData(): Promise<IDataResponse> {
-        const response = await axios(
-            {
-                url: `http://${this.ip}:${this.port}/getOutputData`,
-                headers: {
-                    Accept: 'application/json',
+        try {
+            const response = await axios(
+                {
+                    method: "GET",
+                    url: `http://${this.ip}:${this.port}/getOutputData`,
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                    timeout: 2000
                 },
-                timeout: 2000
-            },
 
-        );
-        const d = response.data.data;
-        return {
-            channel1: {
-                lifetimeGeneration: d.te1,
-                power: d.p1,
-                startupGeneration: d.e1,
-            }, channel2: {
-                lifetimeGeneration: d.te2,
-                power: d.p2,
-                startupGeneration: d.e2,
+            );
+            const d = response.data.data;
+
+            return {
+                status: 200,
+                data: {
+                    channel1: {
+                        lifetimeGeneration: d.te1,
+                        power: d.p1,
+                        startupGeneration: d.e1,
+                    }, channel2: {
+                        lifetimeGeneration: d.te2,
+                        power: d.p2,
+                        startupGeneration: d.e2,
+                    }
+                }
+            };
+
+        } catch (err: any) {
+            return {
+                status: 500
             }
-        };
+        }
     }
 
     async getDeviceInfo(): Promise<IDeviceInfoResponse> {
@@ -85,7 +103,10 @@ export class EZ1API {
             },
 
         );
-        return response.data.data as IDeviceInfoResponse;
+        return {
+            status: 200,
+            data: response.data
+        } as IDeviceInfoResponse;
     }
 
 }
