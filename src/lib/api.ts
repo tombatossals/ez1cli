@@ -50,11 +50,13 @@ export class EZ1API {
     }
 
     async getData(): Promise<IDataResponse> {
-        const response = await axios.get(`http://${this.ip}:${this.port}/getOutputData`,
+        const response = await axios(
             {
+                url: `http://${this.ip}:${this.port}/getOutputData`,
                 headers: {
                     Accept: 'application/json',
                 },
+                timeout: 2000
             },
 
         );
@@ -73,11 +75,13 @@ export class EZ1API {
     }
 
     async getDeviceInfo(): Promise<IDeviceInfoResponse> {
-        const response = await axios.get(`http://${this.ip}:${this.port}/getDeviceInfo`,
+        const response = await axios(
             {
+                url: `http://${this.ip}:${this.port}/getDeviceInfo`,
                 headers: {
                     Accept: 'application/json',
                 },
+                timeout: 2000
             },
 
         );
